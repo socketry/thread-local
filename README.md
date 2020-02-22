@@ -28,29 +28,39 @@ bundle add thread-local
 
 ## Usage
 
-In your own class:
+In your own class, e.g. `FileCache`:
 
 ```ruby
-class MyThing
+class FileCache
 	extend Thread::Local
+	
+	def initialize
+		@cache = {}
+	end
+	
+	def load_file(path)
+		@cache.fetch(path) do
+			@cache[path] = File.read(path)
+		end
+	end
 end
 ```
 
-Now, instead of instantiating your class `MyThing.new`, use `MyThing.instance`. It will return a thread-local instance.
+Now, instead of instantiating your cache `CACHE = FileCache.new`, use `FileCache.instance`. It will return a thread-local instance.
 
 ```ruby
 Thread.new do
-	MyThing.instance
-	# => #<MyObject:0x000055a14ec6be80>
+	FileCache.instance
+	# => #<FileCache:0x000055a14ec6be80>
 end
 
 Thread.new do
-	MyThing.instance
-	# => #<MyObject:0x000055a14ec597d0>
+	FileCache.instance
+	# => #<FileCache:0x000055a14ec597d0>
 end
 ```
 
-Use this as a thread-safe alternative to globals.
+You may think, what is the point of a file cache which is not shared across all threads? And yes, you would be right. Within a single thread (i.e. application instance), files will be cached, but not between threads. The benefit of this approach is that it is the same level of isolation irrespective of the server being multi-process or multi-thread, and allows the server to manage application state on a per-thread basis. If you have more complex objects, you do not need to be concerned about reentrancy or thread safety.
 
 ## Contributing
 
