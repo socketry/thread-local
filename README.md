@@ -62,6 +62,10 @@ end
 
 You may think, what is the point of a file cache which is not shared across all threads? And yes, you would be right. Within a single thread (i.e. application instance), files will be cached, but not between threads. The benefit of this approach is that it is the same level of isolation irrespective of the server being multi-process or multi-thread, and allows the server to manage application state on a per-thread basis. If you have more complex objects, you do not need to be concerned about reentrancy or thread safety.
 
+### Non-global State
+
+This wrapper is designed for state which would otherwise be global. It is not designed to be used to replace instance variables which would otherwise need to be thread-safe. For that, you should prefer things like [`Concurrent::Map`](https://www.rubydoc.info/gems/concurrent-ruby/Concurrent/Map)).
+
 ## Contributing
 
 1. Fork it
