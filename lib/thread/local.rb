@@ -24,11 +24,17 @@ require "thread/local/version"
 
 class Thread
 	module Local
+		# Instantiate a new thread-local object.
+		def local
+			self.new
+		end
+		
+		# Get the current thread-local instance. Create it if required.
 		def instance(thread = Thread.current)
 			name = self.name
 			
 			unless instance = thread.thread_variable_get(name)
-				instance = self.new
+				instance = self.local
 				thread.thread_variable_set(name, instance)
 			end
 			
