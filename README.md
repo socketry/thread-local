@@ -1,6 +1,8 @@
-# Thread::Local ![Development](https://github.com/socketry/thread-local/workflows/Development/badge.svg?branch=master)
+# Thread::Local
 
 A module to simplify thread-local state.
+
+[![Development](https://github.com/socketry/thread-local/workflows/Development/badge.svg?branch=master)](https://github.com/socketry/thread-local/actions?workflow=Development)
 
 ## Motivation
 
