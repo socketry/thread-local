@@ -68,6 +68,26 @@ You may think, what is the point of a file cache which is not shared across all 
 
 This wrapper is designed for state which would otherwise be global. It is not designed to be used to replace instance variables which would otherwise need to be thread-safe. For that, you should prefer things like [`Concurrent::Map`](https://www.rubydoc.info/gems/concurrent-ruby/Concurrent/Map).
 
+### Extending Locals
+
+In some cases, you might want to extend a thread local, e.g. change the way it's initialized or modify the object after it was initialized on demand. You can do this at the process-level using a module:
+
+```ruby
+module WarmCache
+	def local
+		instance = super
+		
+		instance.load_file("/dev/random")
+		
+		return instance
+	end
+end
+
+FileCache.extend(WarmCache)
+```
+
+When a file cache is created, it will also execute the code in `WarmCache#local`.
+
 ## Contributing
 
 1. Fork it
