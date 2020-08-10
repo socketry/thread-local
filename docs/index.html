@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+			<title>Thread::Local</title>
+		
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<link rel="icon" type="image/png" href="_static/icon.png"/>
+		<link rel="stylesheet" href="_static/site.css" type="text/css" media="screen"/>
+		
+		<script src="_components/jquery/jquery.min.js"></script>
+		<script src="_components/jquery-syntax/jquery.syntax.min.js"></script>
+		
+		<script src="_static/links.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			jQuery(function($) {
+				$.syntax();
+			});
+		//]]>
+		</script>
+	</head>
+
+	<body>
+		<header><label for="toggle">☰</label>  › <a class="link" href="index.html">Project</a></header>
+		
+		<main>
+			
+	<h1>Thread::Local</h1><p>Provides a simple high level interface for per-class thread locals. Implements a standard interface for &quot;shared global state&quot;. Avoid reinventing thread-local semantics in your own code by using this implementation.</p>
+<p><a href="https://github.com/socketry/thread-local/actions?workflow=Development"><img src="https://github.com/socketry/thread-local/workflows/Development/badge.svg" alt="Development Status"/></a></p>
+<section id="features"><h2>Features</h2>
+<ul>
+<li>Convert global state to thread local state easily.</li>
+<li>Avoid race conditions and data corruption.</li>
+<li>Provides a standard interface for policy driven design.</li>
+</ul>
+</section><section id="motivation"><h2>Motivation</h2>
+<p>In my own web framework, <a href="https://github.com/socketry/utopia">utopia</a>, I have been struggling with the best way to expose configuration details. I was setting both global variables and modifying <code>ENV</code> which made it impossible to have multiple isolated instances of the application in the same process. This in turn makes it hard to implement things like graceful restart in multi-threaded <a href="https://github.com/socketry/falcon">falcon</a>. Such issues also affect application code running in other multi-threaded contexts, which are becoming increasingly common (e.g. JRuby, TruffleRuby).</p>
+<p>Global variables are often not thread-safe and encourage poor programming style. In many cases it is desirable to have thread-local state, but implementing this directly in Ruby is unpleasant. This gem provides a best-practice wrapper which can extend existing classes to provide per-thread instances.</p>
+<p>Conceptually, a thread is a container for application state. This works well when servers consider applications to be isolated on a per-thread basis, but this isn't always the case:</p>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Application</th>
+<th>Thread Safety</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Falcon Multi-Process</td>
+<td>One per process.</td>
+<td>Isolated.</td>
+</tr>
+<tr>
+<td>Falcon Multi-Thread</td>
+<td>One per thread.</td>
+<td>Isolated, Shared State.</td>
+</tr>
+<tr>
+<td>Puma Multi-Thread</td>
+<td>One per process.</td>
+<td>Reentrant, Shared State.</td>
+</tr>
+<tr>
+<td>Puma Cluster</td>
+<td>One per worker.</td>
+<td>Reentrant, Shared State.</td>
+</tr>
+<tr>
+<td>Unicorn</td>
+<td>One per process.</td>
+<td>Isolated.</td>
+</tr>
+</tbody>
+</table>
+<p>Puma requires applications to be completely thread safe and reentrant, which isn't always easy. However, this gem attempts to provide a model which works in all the above servers, providing isolated, thread-safe, mutable per-thread state.</p>
+</section><section id="usage"><h2>Usage</h2>
+<p>Please browse the <a href="source/index.html">source code index</a> or refer to the guides below.</p>
+
+	<section>
+		<h3><a href="guides/getting-started/index.html">Getting Started</a></h3>
+		
+			<p>This guide explains how to use <code>thread-local</code> for &quot;global state&quot;.</p>
+
+	</section>
+
+</section><section id="contributing"><h2>Contributing</h2>
+<p>We welcome contributions to this project.</p>
+<ol>
+<li>Fork it.</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>).</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>).</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>).</li>
+<li>Create new Pull Request.</li>
+</ol>
+</section><section id="license"><h2>License</h2>
+<p>Released under the MIT license.</p>
+<p>Copyright, 2020, by <a href="https://www.codeotaku.com">Samuel G. D. Williams</a>.</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+</section>
+				
+			<footer>Documentation generated by <a href="https://github.com/socketry/utopia-project">Utopia::Project</a>.</footer>
+		</main>
+	</body>
+</html>
