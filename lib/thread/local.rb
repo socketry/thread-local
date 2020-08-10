@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-require "thread/local/version"
+require_relative "local/version"
 
 class Thread
 	module Local
@@ -30,15 +30,22 @@ class Thread
 		end
 		
 		# Get the current thread-local instance. Create it if required.
-		def instance(thread = Thread.current)
+		def instance
+			thread = Thread.current
 			name = self.name
 			
 			unless instance = thread.thread_variable_get(name)
-				instance = self.local
-				thread.thread_variable_set(name, instance)
+				if instance = self.local
+					thread.thread_variable_set(name, instance)
+				end
 			end
 			
 			return instance
+		end
+		
+		def instance= instance
+			thread = Thread.current
+			thread.thread_variable_set(self.name, instance)
 		end
 	end
 end
