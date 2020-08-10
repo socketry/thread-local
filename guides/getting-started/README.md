@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide explains how to use `db` for database queries.
+This guide explains how to use `thread-local` for "global state".
 
 ## Installation
 
@@ -44,7 +44,7 @@ Thread.new do
 end
 ```
 
-You may think, what is the point of a file cache which is not shared across all threads? And yes, you would be right. Within a single thread (i.e. application instance), files will be cached, but not between threads. The benefit of this approach is that it is the same level of isolation irrespective of the server being multi-process or multi-thread, and allows the server to manage application state on a per-thread basis.
+You may think, what is the point of a file cache which is not shared across all threads? And yes, you would be right. Within a single thread (i.e. application instance), files will be cached, but not between threads. The benefit of this approach is that it is the same level of isolation irrespective of the server being multi-process or multi-thread, and allows the server to manage application state on a per-thread basis (e.g. for rolling restarts/reloads).
 
 ### Non-global State
 
