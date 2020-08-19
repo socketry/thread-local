@@ -7,5 +7,5 @@ group :maintenance, optional: true do
 	gem "bake-bundler"
 	gem "bake-modernize"
 	
-	gem "utopia-project", path: "../utopia-project"
+	gem "utopia-project"
 end
