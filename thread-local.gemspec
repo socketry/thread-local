@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require_relative "lib/thread/local/version"
 
@@ -11,7 +12,7 @@ Gem::Specification.new do |spec|
 	
 	spec.homepage = "https://github.com/socketry/thread-local"
 	
-	spec.files = Dir.glob('{lib}/**/*', File::FNM_DOTMATCH, base: __dir__)
+	spec.files = Dir.glob(['{lib}/**/*', '*.md'], File::FNM_DOTMATCH, base: __dir__)
 	
 	spec.required_ruby_version = ">= 2.5.0"
 	
