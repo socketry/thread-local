@@ -1,4 +1,9 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+
+# Released under the MIT License.
+# Copyright, 2020, by Samuel Williams.
+
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in thread-local.gemspec
 gemspec
